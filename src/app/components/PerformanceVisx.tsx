@@ -9,7 +9,8 @@ import { scaleBand, scaleLinear, scaleOrdinal } from '@visx/scale';
 import { useTooltip, useTooltipInPortal, defaultStyles } from '@visx/tooltip';
 import { Text } from '@visx/text';
 import { schemeSet3 } from 'd3-scale-chromatic';
-import snapshots from './snapshots';
+// dummy snapshots
+// import snapshots from './snapshots';
 import { onHover, onHoverExit } from '../actions/actions';
 import { useStoreContext } from '../store'
 
@@ -76,6 +77,7 @@ const tooltipStyles = {
 
 // traverses a snapshot for data: rendering time, component type, or rtid 
 const traverse = (snapshot, fetchData, data = {}) => {
+  console.log("data in beginning of traverse: ", data);
   if (!snapshot.children[0]) return;
   snapshot.children.forEach((child, idx) => {
     const componentName = child.name + -[idx + 1];
@@ -94,6 +96,7 @@ const traverse = (snapshot, fetchData, data = {}) => {
     }
     traverse(snapshot.children[idx], fetchData, data);
   })
+  console.log("data in end of traverse: ", data);
   return data;
 };
 
@@ -109,6 +112,7 @@ const getSnapshotIds = (obj, snapshotIds = []):string[] => {
 
 // Returns array of snapshot objs each with components and corresponding render times
 const getPerfMetrics = (snapshots, snapshotsIds):any[] => {
+  console.log("snapshot in get Perf metrics: ", snapshots);
   return snapshots.reduce((perfSnapshots, curSnapshot, idx) => {
     return perfSnapshots.concat(traverse(curSnapshot, 'getRenderTime', { snapshotId: snapshotsIds[idx] }));
   }, []);
@@ -131,6 +135,7 @@ const PerformanceVisx = (props: BarStackProps) => {
 
   // filter and structure incoming data for VISX
   const data = getPerfMetrics(snapshots, getSnapshotIds(hierarchy));
+  console.log("data in PerformanceVisx: ", data);
   const keys = Object.keys(data[0]).filter(d => d !== 'snapshotId');
   const allComponentStates = traverse(snapshots[0], 'getComponentType');
   const allComponentRtids = traverse(snapshots[snapshots.length-1], 'getRtid');
@@ -138,6 +143,7 @@ const PerformanceVisx = (props: BarStackProps) => {
   // create array of total render times for each snapshot
   const totalRenderArr = data.reduce((totalRender, curSnapshot) => {
     const curRenderTotal = keys.reduce((acc, cur) => {
+      console.log("curr", curSnapshot[cur])
       acc += Number(curSnapshot[cur]);
       return acc;
     }, 0);
@@ -215,7 +221,7 @@ const PerformanceVisx = (props: BarStackProps) => {
                     key={`bar-stack-${barStack.index}-${bar.index}`}
                     x={bar.x}
                     y={bar.y}
-                    height={bar.height === 0 ? idx + 1 : bar.height}
+                    height={bar.height === 0 ? null : bar.height}
                     width={bar.width}
                     fill={bar.color}
                     /* TIP TOOL EVENT HANDLERS */
