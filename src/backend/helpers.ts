@@ -66,7 +66,7 @@ export const throttle = (callback: Function, ms: number): Function => {
   return throttledFunc;
 };
 
-// Helper function to grab the getters/setters from `elementType`
+// Helper function to grab the hooks getters/setters from `elementType` 
 /**
  * @method getHooksNames
  * @param elementType The fiber `type`, A stringified function of the component the Fiber whose hooks we want corresponds to
@@ -92,7 +92,7 @@ export const getHooksNames = (elementType: string): Array<string> => {
     const statements: Array<string> = [];
     /** All module exports always start off as a single 'FunctionDeclaration' type
      * Other types: "BlockStatement" / "ExpressionStatement" / "ReturnStatement"
-     * Iterate through AST of every function declaration
+     * Iterate through AST (abstract syntax tree) of every function declaration
      * Check within each function declaration if there are hook declarations */
     ast.forEach(functionDec => {
       let body: any;

@@ -140,10 +140,10 @@ const PerformanceVisx = (props: BarStackProps) => {
   const allComponentStates = traverse(snapshots[0], 'getComponentType');
   const allComponentRtids = traverse(snapshots[snapshots.length-1], 'getRtid');
 
+
   // create array of total render times for each snapshot
   const totalRenderArr = data.reduce((totalRender, curSnapshot) => {
     const curRenderTotal = keys.reduce((acc, cur) => {
-      console.log("curr", curSnapshot[cur])
       acc += Number(curSnapshot[cur]);
       return acc;
     }, 0);
@@ -214,7 +214,7 @@ const PerformanceVisx = (props: BarStackProps) => {
             yScale={renderingScale}
             color={colorScale}
           >
-            {barStacks => 
+            {barStacks =>
               barStacks.map(barStack => 
                 barStack.bars.map(((bar, idx) => (
                   <rect

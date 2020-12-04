@@ -421,7 +421,6 @@ function createTree(
                 pointer.stateNode.classList.remove(lastClass);
               }
             }
-            
             pointer.stateNode.classList.add(rtid)
         }
           pointer = pointer.child

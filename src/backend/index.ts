@@ -72,7 +72,7 @@ window.addEventListener('message', ({ data: { action, payload } }: MsgData) => {
              }
         }
       } else {
-        let element = document.querySelector(`.${payload}`);
+        let element = document.querySelector<HTMLElement>(`.${payload}`);
         // console.log("element: ", element);
         if (element !== null) {
           // console.log("element style: ", element.style)
@@ -83,13 +83,13 @@ window.addEventListener('message', ({ data: { action, payload } }: MsgData) => {
     case 'onHoverExit': 
         if(Array.isArray(payload)){ 
         for (let i=0; i<payload.length;i++){
-          let element = document.querySelector(`.${payload}`);
+          let element = document.querySelector<HTMLElement>(`.${payload}`);
           if (element !== null) {
             element.style.backgroundColor = ''; 
           }
         }
       } else {
-        let element = document.querySelector(`.${payload}`);
+        let element = document.querySelector<HTMLElement>(`.${payload}`);
         // console.log("element style: ", element.style)
         if (element !== null) {
           element.style.backgroundColor = ''; 
